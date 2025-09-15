@@ -5,11 +5,13 @@ This PowerShell script automates the process of checking for the latest version 
 ## 📦 Features
 
 - Checks for the latest WinRAR version using `winget`
-- Installs or updates WinRAR via `winget` (no manual downloads required)
+- Updates WinRAR via `winget` (no manual downloads required)
 - Automatically installs `winget` and its dependencies if missing
+- Only updates WinRAR if it's already installed
 - Skips update if WinRAR is currently running to avoid conflicts
 - Performs silent installation with no user interaction
 - Optionally supports scheduled execution via Task Scheduler to run the update daily
+- If your computer is offline when the task is scheduled, it will run the next time you log in
 - Logs all actions and outcomes to `C:\winrar-auto-update.log` for easy tracking
 
 ## 🛠️ Requirements
@@ -100,9 +102,9 @@ This script follows a structured process to ensure WinRAR is installed or update
      - Downloads the latest `winget` release from GitHub
      - Installs `winget` manually via its `.msixbundle` installer
 
-3. **Install or Update WinRAR**
+3. **Update WinRAR**
    - Once `winget` is available:
-     - Uses `winget install` or `winget upgrade` to install or update WinRAR to the latest version
+     - Uses `winget upgrade` to update WinRAR to the latest version
      - Ensures the process is silent and user - friendly
 
 This workflow ensures compatibility across a wide range of Windows setups - even those without access to the Microsoft Store or pre-installed package managers.

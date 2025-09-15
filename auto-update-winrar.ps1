@@ -51,7 +51,7 @@ if ($register) {
 
         Write-Host "Task registered. It will run daily at $($time.TimeOfDay), or on next login if missed."
 
-        # exit
+        exit
     } catch {
         Write-Host "Failed to scheduled task 'AutoUpdateWinRAR'..."
         Write-Host "$($_.Exception.Message)"
@@ -253,25 +253,30 @@ function Test-WinRARInstalled {
 
 $logfile = "C:\winrar-auto-update.log"
 
-if (-not (Get-Process -Name "WinRAR" -ErrorAction SilentlyContinue)) {
-    Write-Host "WinRAR is not running. Proceeding with update..."
+function Log($message) {
+    Write-Host "$message"
+    "[$($(Get-Date).ToString("dd/MM/yyyy HH:mm:ss"))] $message" | Out-File $logfile -Append
+}
 
-    "[$(Get-Date).ToString()] Starting update..." | Out-File $logfile -Append
+if (-not (Get-Process -Name "WinRAR" -ErrorAction SilentlyContinue)) {
+    Log "WinRAR is not running. Proceeding with update..."
 
     try {
-        # --- Install/Update WinRAR in English ---
-        Write-Host "Installing/Upgrading WinRAR (English)..."
+        # --- Update WinRAR ---
         if(Test-WinRARInstalled) {
+            Log "Starting update..."
+
             winget update --id RARLab.WinRAR --exact --silent --override '/S /LANG=English' --accept-package-agreements --accept-source-agreements
+            
+            Log "Finished update."
         } else {
-            winget install --id RARLab.WinRAR --exact --silent --override '/S /LANG=English' --accept-package-agreements --accept-source-agreements
+            Log "WinRAR is not installed. Skipping update."
+
+            # winget install --id RARLab.WinRAR --exact --silent --override '/S /LANG=English' --accept-package-agreements --accept-source-agreements
         }
-        "[$(Get-Date).ToString()] Finished update." | Out-File $logfile -Append
     } catch {
-        "[$(Get-Date).ToString()] ERROR: $($_.Exception.Message)" | Out-File $logfile -Append
+        Log "ERROR: $($_.Exception.Message)"
     }
 } else {
-    Write-Host "WinRAR is currently running. Skipping update."
-
-    "[$(Get-Date).ToString()] WinRAR is currently running. Skipping update." | Out-File $logfile -Append
+    Log "WinRAR is currently running. Skipping update."
 }

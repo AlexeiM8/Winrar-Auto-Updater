@@ -2,128 +2,35 @@
 
 This PowerShell script automates the process of checking for the latest version of WinRAR and updating it silently on your Windows system. No more manual downloads or installations - just run the script and stay up to date!
 
-## 📦 Features
+This repository includes three PowerShell-based approaches to automatically update WinRAR on Windows:
 
-- Checks for the latest WinRAR version using `winget`
-- Updates WinRAR via `winget` (no manual downloads required)
-- Automatically installs `winget` and its dependencies if missing
-- Only updates WinRAR if it's already installed
-- Skips update if WinRAR is currently running to avoid conflicts
-- Performs silent installation with no user interaction
-- Optionally supports scheduled execution via Task Scheduler to run the update daily
-- If your computer is offline when the task is scheduled, it will run the next time you log in
-- Logs all actions and outcomes to `C:\winrar-auto-update.log` for easy tracking
+1. ✅ [Direct from rarlab.com](Auto-Update-Winrar-Rarlab/)
+2. 🍫 [Using Chocolatey](Auto-Update-Winrar-Chocolately/)
+3. 🪟 [Using Winget](Auto-Update-Winrar-Winget/)
 
-## 🛠️ Requirements
+Each method has its own strengths and trade-offs. Choose the one that best fits your system setup and update preferences.
 
-- Windows 10 or later
-- PowerShell 5.1 or newer
-- Internet connection
-- Administrator privileges (for installation)
+Personally, I like the direct-from-rarlab.com method best.
 
-## 🚀 Usage
+---
 
-**Step 1: Download the script**  
-Download and save the PowerShell script to a known location (e.g., `C:\Scripts\auto-update-winrar.ps1`).  
+## 📊 Comparison Table
 
-**Step 2: Run PowerShell as Administrator**  
-To ensure proper installation and scheduling, open PowerShell with elevated privileges:  
-- Press Win + X →  Select Windows PowerShell (Admin)  
-- Or search for "PowerShell", right-click →  Run as administrator  
+| **Feature**| [Direct from RARLAB](Auto-Update-Winrar-Rarlab/)| [Using Chocolatey (`choco`)](Auto-Update-Winrar-Chocolately/)| [Using Winget (`winget`)](Auto-Update-Winrar-Winget/)|
+|------------------------------------|---------------------------|-----------------------------|------------------------------|
+| **Update speed**| 🔥🔥🔥 Fastest (same-day)| 🔥 Fast (same-day, or with a slight delay of about 1–3 days)| 🐢 Often delayed (days–weeks)|
+| **Can install beta versions**| ✅ Yes (pulls directly from RARLAB, so you'll get beta versions too)| ❌ No (`choco` usually sticks to stable releases)| ❌ No (`winget` usually sticks to stable releases)|
+| **Consistency**| ⭐⭐⭐  (May break if [rarlab.com](https://www.rarlab.com) changes its website or file naming format. But honestly, they've kept things stable for years)| ⭐⭐⭐⭐⭐  (Stable via package manager)| ⭐⭐⭐⭐⭐  (Stable via package manager)|
+| **Version check before update**| ✅ Yes| ✅ Yes| ✅ Yes|
+| **Requires package manager**| ❌ No| ✅ Yes (`choco`)| ✅ Yes (`winget`)|
+| **Auto installs package manager**| ❌ No (Because we don't need)| ✅ Yes| ✅ Yes|
+| **Silent install**| ✅ Yes| ✅ Yes| ✅ Yes|
+| **Skips if WinRAR is running**| ✅ Yes| ✅ Yes| ✅ Yes|
+| **Scheduled task support**| ✅ Yes| ✅ Yes| ✅ Yes|
+| **Logging support**| ✅ Yes| ✅ Yes| ✅ Yes|
 
-**Step 3: Choose Your Execution Mode and Run**  
-You have two options depending on whether you want automatic daily updates or just a one-time update.  
+---
 
-**🔁 Option 1: Register Daily Auto-Update Task**  
-
-This command will:
-
-- Create a scheduled task to run the script every day
-- Immediately run the update once
-
-```
-powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Scripts\auto-update-winrar.ps1" -verb runAs -register
-```
-
-**🔁 Option 2: Run One-Time Update Only**  
-
-This command will:
-
-- Run the update once
-- No scheduled task will be created
-
-```
-powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Scripts\auto-update-winrar.ps1" -verb runAs
-```
-
-## ⚙️ Configuration
-
-The script includes two configurable settings that allow you to tailor its behavior to your preferences:
-
-### 🕒 Task Schedule Time
-
-You can set the time of day when the scheduled task runs by modifying the `$time` variable:
-
-```powershell
-$time = [datetime]"03:00:00"  # Line 17
-```
-
-- Default is 03:00:00 (3:00 AM)
-- You can change this to any valid time format (e.g., "08:30:00" for 8:30 AM)
-
-### 📄 Log File Path
-
-You can customize where the script saves its log output by modifying the `$logfile` variable:
-
-```powershell
-$logfile = "C:\winrar-auto-update.log"  # Line 254
-```
-
-- Default path is `C:\winrar-auto-update.log`
-- Change this to any valid file path if you prefer a different location (e.g., `D:\Logs\winrar.log`)
-
-These settings give you control over when the update runs and where its activity is recorded. Make sure to save the script after editing these values.
-
-## 🔁 Code Workflow Overview
-
-This script follows a structured process to ensure WinRAR is installed or updated seamlessly - even on systems without `winget` pre-installed.
-
-### 🧩 Step-by-Step Breakdown
-
-1. **Check for Winget**
-   - The script first checks if the `winget` package manager is available on the system.
-
-2. **Install Winget (if missing)**
-   - If `winget` is not found:
-     - Automatically downloads required dependencies:
-       - `Microsoft.UI.Xaml.2.8_8`
-       - `Microsoft.VCLibs.140.00.UWPDesktop`
-     - Installs these dependencies silently using `Add-AppxPackage`
-     - Downloads the latest `winget` release from GitHub
-     - Installs `winget` manually via its `.msixbundle` installer
-
-3. **Update WinRAR**
-   - Once `winget` is available:
-     - Uses `winget upgrade` to update WinRAR to the latest version
-     - Ensures the process is silent and user - friendly
-
-This workflow ensures compatibility across a wide range of Windows setups - even those without access to the Microsoft Store or pre-installed package managers.
-
-## ⚠️ Note & Limitations
-
-While this script provides a convenient and automated way to keep WinRAR updated, there are a few caveats to be aware of:
-
-- **Update Delay via Winget**  
-  The script relies on `winget` to fetch and install the latest version of WinRAR. However, software updates published to `winget` often lag behind the official releases from the vendor (e.g., [rarlab.com](https://www.rarlab.com)) by several days or even weeks.
-
-- **Upcoming Direct Installer Script**  
-  To address this delay, a separate script is in development that will:
-  - Download the latest WinRAR installer directly from the official website
-  - Automatically compare the installed version on your system with the latest version on [rarlab.com](https://www.rarlab.com)
-  - Skip update if you're already up to date
-  - Perform silent installation with no user interaction required
-  - Support scheduled daily updates via Task Scheduler
-
-This alternative will ensure you're always running the most current version as soon as it's released - ideal for users who prioritize speed and precision over package manager convenience. Stay tuned!
+## 📄 Further information can be found in the README.md file located in each script's directory.
 
 ---

